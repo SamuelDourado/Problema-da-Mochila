@@ -75,6 +75,15 @@ public class Carregador {
 		return peso;
 	}
 	
+	public static void imprimirMatriz(float[][] res) {
+		for(float[] linha: res) {
+			for(float item: linha) {
+				System.out.print(" " + item);
+			}
+			System.out.println();
+		}
+	}
+	
 	public ArrayList<Item> getAllItens(){
 		return this.allItens;
 	}
