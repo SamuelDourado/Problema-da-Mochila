@@ -11,7 +11,8 @@ public class Main {
 		
 		System.out.println("***** \n Dinâmico");
 		int s = (int) m1.getSize();
-		int i = m1.Listar().size();
+		int i = carregador.getAllItens().size();
+		//System.out.println(carregador.getAllItens().get(1));
 		System.out.println(s + " " + i);
 		float[][] res = null;
 		res = new float[i][s+1];
@@ -20,7 +21,7 @@ public class Main {
 		while(i-1 >= i1) {
 			//System.out.print("i = " + i1);
 			while(s >= i2) {
-				res[i1][i2] = Dinamico2(i1,i2,res,m1.Listar());
+				res[i1][i2] = Dinamico2(i1,i2,res,carregador.getAllItens());
 				System.out.println(i1 + " " + i2 + " = " + res[i1][i2]);
 				i2++;
 			}

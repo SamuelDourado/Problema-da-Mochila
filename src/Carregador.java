@@ -74,6 +74,10 @@ public class Carregador {
 		}
 		return peso;
 	}
+	
+	public ArrayList<Item> getAllItens(){
+		return this.allItens;
+	}
 
 }
 
