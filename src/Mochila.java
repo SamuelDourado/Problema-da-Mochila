@@ -39,4 +39,8 @@ public class Mochila {
 		  }
 		  return tPeso <= this.size;
 	  }
+	  
+	  public float getSize() {
+		  return this.size;
+	  }
 }
