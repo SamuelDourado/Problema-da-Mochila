@@ -32,12 +32,32 @@ public class Mochila {
 		  return false;
 	  }
 	  
+	  /**
+	   * Este método uni duas mochilas
+	   * @param m Mochila
+	   * @return Bolean 
+	   */
+	  public Boolean Unir(Mochila m){
+		  if((this.size - this.pesar()) < m.pesar()) {
+			  for (Item Item: m.Listar()) {
+				    this.In(Item);
+			  }
+			  return true;
+		  }
+		  return false;
+	  }
+	  
 	  private Boolean Cabe(Item i){
-		  float tPeso = i.getPeso();
+		  float tPeso = i.getPeso() + this.pesar();
+		  return tPeso <= this.size;
+	  }
+	  
+	  private float pesar() {
+		  float tPeso = 0;
 		  for (Item Item: this.Itens) {
 			    tPeso = tPeso + Item.getPeso();
 		  }
-		  return tPeso <= this.size;
+		  return tPeso;
 	  }
 	  
 	  public float getSize() {

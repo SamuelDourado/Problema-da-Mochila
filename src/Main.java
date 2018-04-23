@@ -10,24 +10,24 @@ public class Main {
 		carregador.printMochila(m1);
 		
 		System.out.println("***** \n Dinâmico");
-		int s = (int) m1.getSize();
-		int i = carregador.getAllItens().size();
-		//System.out.println(carregador.getAllItens().get(1));
-		System.out.println(s + " " + i);
-		float[][] res = null;
-		res = new float[i][s+1];
-		System.out.println(res[0][0]);
-		int i1 = 0, i2 =0;
-		while(i-1 >= i1) {
-			//System.out.print("i = " + i1);
-			while(s >= i2) {
-				res[i1][i2] = Dinamico2(i1,i2,res,carregador.getAllItens());
-				System.out.println(i1 + " " + i2 + " = " + res[i1][i2]);
-				i2++;
-			}
-			i1++;
-			i2=0;
-		}
+		
+		
+//		int s = (int) m1.getSize();
+//		int i = carregador.getAllItens().size();
+//		//System.out.println(carregador.getAllItens().get(1));
+//		float[][] res = null;
+//		res = new float[i][s+1];
+//		int i1 = 0, i2 =0;
+//		while(i-1 >= i1) {
+//			//System.out.print("i = " + i1);
+//			while(s >= i2) {
+//				res[i1][i2] = Dinamico2(i1,i2,res,carregador.getAllItens());
+//				//System.out.println(i1 + " " + i2 + " = " + res[i1][i2]);
+//				i2++;
+//			}
+//			i1++;
+//			i2=0;
+//		}
 	}
 	
 	public static float Dinamico2(int i, int s,float[][] res, ArrayList<Item> allItens) {
