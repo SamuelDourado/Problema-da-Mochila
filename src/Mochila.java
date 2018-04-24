@@ -38,7 +38,8 @@ public class Mochila {
 	   * @return Bolean 
 	   */
 	  public Boolean Unir(Mochila m){
-		  if((this.size - this.pesar()) < m.pesar()) {
+		  //System.out.println("uni " + (this.size - this.pesar()) + " " + m.pesar());
+		  if((this.size - this.pesar()) >= m.pesar()) {
 			  for (Item Item: m.Listar()) {
 				    this.In(Item);
 			  }
@@ -52,12 +53,20 @@ public class Mochila {
 		  return tPeso <= this.size;
 	  }
 	  
-	  private float pesar() {
+	  public float pesar() {
 		  float tPeso = 0;
 		  for (Item Item: this.Itens) {
 			    tPeso = tPeso + Item.getPeso();
 		  }
 		  return tPeso;
+	  }
+	  
+	  public float avaliar() {
+		  float tValor = 0;
+		  for (Item Item: this.Itens) {
+			    tValor = tValor + Item.getValue();
+		  }
+		  return tValor;
 	  }
 	  
 	  public float getSize() {

@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 public class Carregador {
 	protected ArrayList<Item> allItens = new ArrayList<Item>();
+	private Mochila[][] matriz = null;
 	
 	public void LerItens() {
 		Boolean stop = false;
@@ -42,12 +43,62 @@ public class Carregador {
 		return mochila;
 	}
 	
+	public void Dinamico(Mochila m1){
+		System.out.println("***** \n Dinâmico");
+		int s = (int) m1.getSize();
+		int i = this.getAllItens().size();
+		this.matriz = new  Mochila[i][s+1];
+		int i1 = 0, i2 =0;
+		for(Item item: this.getAllItens()) {
+			while(s >= i2) {
+				matriz[i1][i2]= DinamicoAlg(item, i2, matriz, i1);
+				//System.out.println(i1 + " " + i2 + " = " + matriz[i1][i2].avaliar());
+				i2++;
+			}
+			i2 = 0;
+			i1++;
+		}
+	}
+	
+	public Mochila DinamicoAlg(Item i,float s, Mochila[][] m,int n) {
+		Mochila novaMochila = new Mochila(s);
+		if(s <= 0) 
+			return novaMochila;		
+		if (!novaMochila.In(i))
+			return m[n-1][(int) s];
+		if(n==0)
+			return novaMochila;
+					
+		int resto = (int) (novaMochila.getSize() - novaMochila.pesar());
+		novaMochila.Unir(m[n-1][resto]);
+	
+		Mochila velhaMochila = m[n-1][(int) s];
+		
+		if((novaMochila.avaliar() > velhaMochila.avaliar()) ) {
+			return novaMochila;
+		}
+		
+		return velhaMochila;
+	}
+	
+	public void DinamicoResultado() {
+		Scanner entrada = new Scanner(System.in);
+		System.out.println("item : ");
+		int i = entrada.nextInt();
+		System.out.println("Mochila size : ");
+		int s = entrada.nextInt();
+		this.printMochila(this.matriz[i-1][s]);
+	}
+	
 	public Item maxItem() {
 		Item maxItem = null;
 		for (Item Item: this.allItens) {
-			if(maxItem == null || (!Item.adicionado && Item.getValue() > maxItem.getValue())){
-				maxItem = Item;
+			if(!Item.adicionado) {
+				if( maxItem == null || (Item.getValue() > maxItem.getValue()) && !Item.adicionado ){
+					maxItem = Item;
+				}
 			}
+			
 		}
 		return maxItem;
 	}
@@ -75,10 +126,13 @@ public class Carregador {
 		return peso;
 	}
 	
-	public static void imprimirMatriz(float[][] res) {
-		for(float[] linha: res) {
-			for(float item: linha) {
-				System.out.print(" " + item);
+	public  void imprimirMatriz() {
+		if(this.matriz == null)
+			return ;
+		
+		for(Mochila[] linha: this.matriz) {
+			for(Mochila mochila: linha) {
+				System.out.print(" - " + mochila.avaliar());
 			}
 			System.out.println();
 		}
