@@ -1,3 +1,9 @@
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -8,23 +14,45 @@ public class Carregador {
 	public void LerItens() {
 		Boolean stop = false;
 		Scanner entrada = new Scanner(System.in);
-		while(!stop) {
-			System.out.println("* Adicionar Item:");
-			
-			System.out.print("** Nome:");
-			String nome = entrada.next();
-			
-			System.out.print("** Valor:");
-			float value = entrada.nextFloat();
-			
-			System.out.print("** Peso:");
-			float peso = entrada.nextFloat();
-			
-			allItens.add( new Item(nome, value, peso) );
-			System.out.print("** Parar:");
-			stop = entrada.nextBoolean();
-			System.out.println("*****");
+		File file = new File("dados.txt");
+		BufferedReader buffer = null;
+		try {
+			buffer = new BufferedReader(new FileReader(file));
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
+		String line = null;
+		try {
+			while ((line = buffer.readLine()) != null) {
+				System.out.println(line);
+				String[] splited = line.split("\\s+");
+				String nome = splited[0];
+				int value = Integer.parseInt(splited[1]);
+				int peso = Integer.parseInt(splited[2]);
+				allItens.add( new Item(nome, value, peso) );
+			}
+		} catch (NumberFormatException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+//		while(!stop) {
+//			System.out.println("* Adicionar Item:");
+//			
+//			System.out.print("** Nome:");
+//			String nome = entrada.next();
+//			
+//			System.out.print("** Valor:");
+//			float value = entrada.nextFloat();
+//			
+//			System.out.print("** Peso:");
+//			float peso = entrada.nextFloat();
+//			
+//			allItens.add( new Item(nome, value, peso) );
+//			System.out.print("** Parar:");
+//			stop = entrada.nextBoolean();
+//			System.out.println("*****");
+//		}
 	}
 	
 	public Mochila Guloso(){
@@ -51,6 +79,7 @@ public class Carregador {
 		int i1 = 0, i2 =0;
 		for(Item item: this.getAllItens()) {
 			while(s >= i2) {
+				//System.out.println(i1 + " " + i2 );
 				matriz[i1][i2]= DinamicoAlg(item, i2, matriz, i1);
 				//System.out.println(i1 + " " + i2 + " = " + matriz[i1][i2].avaliar());
 				i2++;
@@ -62,10 +91,12 @@ public class Carregador {
 	
 	public Mochila DinamicoAlg(Item i,float s, Mochila[][] m,int n) {
 		Mochila novaMochila = new Mochila(s);
-		if(s <= 0) 
+		if(s <= 0 ) 
 			return novaMochila;		
-		if (!novaMochila.In(i))
+		
+		if (!novaMochila.In(i) && n != 0)
 			return m[n-1][(int) s];
+		
 		if(n==0)
 			return novaMochila;
 					
@@ -94,7 +125,7 @@ public class Carregador {
 		Item maxItem = null;
 		for (Item Item: this.allItens) {
 			if(!Item.adicionado) {
-				if( maxItem == null || (Item.getValue() > maxItem.getValue()) && !Item.adicionado ){
+				if( maxItem == null || (Item.getValue() >= maxItem.getValue()) && !Item.adicionado ){
 					maxItem = Item;
 				}
 			}
